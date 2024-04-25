@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import { Episode as EpisodeType } from "../types";
 
 type Props = {
@@ -6,7 +7,7 @@ type Props = {
 
 const Episode = ({ data }: Props) => {
   return (
-    <li>{data.episode} | {data.name}</li>
+    <li><Link to={`/episodes/${data.id}`}>{data.episode} | {data.name}</Link></li>
   )
 };
 
