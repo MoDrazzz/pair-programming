@@ -24,8 +24,11 @@ function App() {
   }
 
   useEffect(() => {
+    if(isNaN(parseInt(currentPage))) {
+      throw new Response('Page not found', { status: 404 })
+    }
     refetch()
-  }, [searchParams, refetch])
+  }, [searchParams, refetch, currentPage])
 
   if(isLoading) {
     return <h1>Loading...</h1>
