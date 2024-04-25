@@ -1,2 +1,3 @@
 export type { Episode } from './Episode'
-export type { Characters } from './Characters'
+export type { EpisodesResponse } from './EpisodesResponse'
+export type { Character } from './Character'

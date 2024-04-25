@@ -1,6 +1,6 @@
 import { EpisodeItem } from "./components";
 import { useQuery } from "@tanstack/react-query";
-import { EpisodesResponse } from "./types/EpisodesResponse";
+import { EpisodesResponse } from "./types";
 import { useLoaderData, useSearchParams } from "react-router-dom";
 import { useEffect } from "react";
 import { getEpisodes } from "./lib";

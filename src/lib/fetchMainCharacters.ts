@@ -1,4 +1,4 @@
-import { Characters } from "../types";
+import { Character } from "../types";
 
 export const fetchMainCharacters = async (characters: string[]) => {
   const mainCharacters = characters.slice(0, 3)
@@ -11,5 +11,5 @@ export const fetchMainCharacters = async (characters: string[]) => {
   const request = await fetch("https://rickandmortyapi.com/api/character/" + mainCharactersIds.join(","))
   const data = await request.json()
 
-  return data as Characters[]
+  return data as Character[]
 }

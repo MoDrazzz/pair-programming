@@ -12,9 +12,9 @@ const ErrorPage = () => {
         {error.data?.message && <p>{error.data.message}</p>}
       </div>
     );
-  } else {
-    return <div>Oops</div>;
   }
+
+  return <div>Oops</div>;
 };
 
 export default ErrorPage;
