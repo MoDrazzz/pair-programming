@@ -1,17 +1,20 @@
-import { useEffect, useState } from "react"
 import { Episode as EpisodeType } from "./types";
 import { Episode } from "./components";
+import { useQuery } from "@tanstack/react-query";
+
+const getEpisodes = async () => {
+  const request = await fetch("https://rickandmortyapi.com/api/episode")
+  const data = await request.json()
+
+  return data.results as EpisodeType[]
+}
 
 function App() {
-  const [episodes, setEpisodes] = useState<EpisodeType[]>([])
+  const { data: episodes } = useQuery({ queryKey: ['episodes'], queryFn: getEpisodes })
 
-  useEffect(() => {
-    fetch("https://rickandmortyapi.com/api/episode")
-      .then(res => res.json())
-      .then(data => {
-        setEpisodes(data.results);
-      })
-  }, [])
+  if(!episodes) {
+    return <h1>Loading...</h1>
+  }
 
   return (
     <main className="bg-zinc-800 text-zinc-50 grid place-items-center h-screen">
