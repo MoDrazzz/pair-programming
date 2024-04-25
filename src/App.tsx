@@ -1,8 +1,9 @@
 import { useEffect, useState } from "react"
-import { Episode } from "./types";
+import { Episode as EpisodeType } from "./types";
+import { Episode } from "./components";
 
 function App() {
-  const [, setEpisodes] = useState<Episode[]>([])
+  const [episodes, setEpisodes] = useState<EpisodeType[]>([])
 
   useEffect(() => {
     fetch("https://rickandmortyapi.com/api/episode")
@@ -14,7 +15,9 @@ function App() {
 
   return (
     <main className="bg-zinc-800 text-zinc-50 grid place-items-center h-screen">
-      Hello
+      <ul>
+        {episodes.map(episode => <Episode key={episode.id} data={episode} />)}
+      </ul>
     </main>
   )
 }
