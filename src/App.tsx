@@ -1,21 +1,20 @@
 import { EpisodeItem } from "./components";
 import { useQuery } from "@tanstack/react-query";
 import { EpisodesResponse } from "./types/EpisodesResponse";
-import { useSearchParams } from "react-router-dom";
+import { useLoaderData, useSearchParams } from "react-router-dom";
 import { useEffect } from "react";
-
-const getEpisodes = async (page: string) => {
-  const request = await fetch("https://rickandmortyapi.com/api/episode?page=" + page)
-  const data = await request.json()
-
-  return data as EpisodesResponse
-}
+import { getEpisodes } from "./lib";
 
 function App() {
   const [searchParams, setSearchParams] = useSearchParams();
+  const initialData = useLoaderData() as EpisodesResponse;
   const currentPage = searchParams.get('page') || '1'
 
-  const { data, refetch, isLoading } = useQuery<EpisodesResponse>({ queryKey: ['episodes'], queryFn: () => getEpisodes(currentPage) })
+  const { data, refetch, isLoading } = useQuery({
+    initialData,
+    queryKey: ['episodes'],
+    queryFn: () => getEpisodes(currentPage)
+  })
 
   const handlePreviousPage = () => {
     setSearchParams({ page: `${parseInt(currentPage)-1}` })
@@ -28,7 +27,7 @@ function App() {
     refetch()
   }, [searchParams, refetch])
 
-  if(isLoading || !data) {
+  if(isLoading) {
     return <h1>Loading...</h1>
   }
 
