@@ -1,30 +1,10 @@
-import { useParams } from "react-router-dom";
-import { Characters, Episode } from "../types";
+import { useLoaderData } from "react-router-dom";
+import { Episode } from "../types";
 import { useQuery } from "@tanstack/react-query";
+import { fetchMainCharacters } from "../lib";
 
 type EpisodeDataProps = {
   data: Episode
-}
-
-const fetchMainCharacters = async (characters: string[]) => {
-  const mainCharacters = characters.slice(0, 3)
-  const mainCharactersIds = mainCharacters.map(url => {
-    const urlParts = url.split('/')
-
-    return urlParts[urlParts.length - 1];
-  })
-
-  const request = await fetch("https://rickandmortyapi.com/api/character/" + mainCharactersIds.join(","))
-  const data = await request.json()
-
-  return data as Characters[]
-}
-
-const getEpisode = async (id: string) => {
-  const request = await fetch("https://rickandmortyapi.com/api/episode/" + id)
-  const data = await request.json()
-
-  return data as Episode
 }
 
 const EpisodeData = ({ data }: EpisodeDataProps) => {
@@ -47,17 +27,12 @@ const EpisodeData = ({ data }: EpisodeDataProps) => {
 }
 
 const EpisodePage = () => {
-  const { episodeId } = useParams();
-  const { data: episodeData } = useQuery({ queryKey: ['episode'], queryFn: () => getEpisode(episodeId!) })
-
-  if(!episodeData) {
-    return <h1>Loading...</h1>
-  }
+  const episodeData = useLoaderData() as Episode
 
   return (
     <main className="grid place-items-center h-screen">
       <div>
-      <h1>Episode {episodeData?.name}</h1>
+      <h1>Episode {episodeData.name}</h1>
       <EpisodeData data={episodeData} />
       </div>
     </main>
