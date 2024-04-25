@@ -1,9 +1,9 @@
 import { useParams } from "react-router-dom";
-import { CharactersType, Episode as EpisodeType } from "../types";
+import { Characters, Episode } from "../types";
 import { useQuery } from "@tanstack/react-query";
 
 type EpisodeDataProps = {
-  data: EpisodeType
+  data: Episode
 }
 
 const fetchMainCharacters = async (characters: string[]) => {
@@ -17,14 +17,14 @@ const fetchMainCharacters = async (characters: string[]) => {
   const request = await fetch("https://rickandmortyapi.com/api/character/" + mainCharactersIds.join(","))
   const data = await request.json()
 
-  return data as CharactersType[]
+  return data as Characters[]
 }
 
 const getEpisode = async (id: string) => {
   const request = await fetch("https://rickandmortyapi.com/api/episode/" + id)
   const data = await request.json()
 
-  return data as EpisodeType
+  return data as Episode
 }
 
 const EpisodeData = ({ data }: EpisodeDataProps) => {
